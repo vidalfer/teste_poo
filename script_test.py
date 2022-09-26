@@ -41,7 +41,7 @@ image_w.value = bgr8_to_jpeg(image)
 with open('human_pose.json', 'r') as f:
     human_pose = json.load(f)
 
-    topology = trt_pose.coco.coco_category_to_topology(human_pose)
+topology = trt_pose.coco.coco_category_to_topology(human_pose)
 
 WIDTH = 224
 HEIGHT = 224

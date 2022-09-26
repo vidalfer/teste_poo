@@ -80,6 +80,7 @@ while(cap.isOpened()):
     frame = execute(frame)
     if ret == True:
         cv2.imshow("Frame",frame)
+        print("funcionou")
 
         if cv2.waitKey(25) & 0xFF == ord(q):
             break

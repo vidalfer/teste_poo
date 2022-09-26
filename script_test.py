@@ -81,10 +81,10 @@ while(cap.isOpened()):
     if ret == True:
     cv2.imshow("Frame",frame)
 
-    if cv2.waitKey(25) & 0xFF == ord(q):
+        if cv2.waitKey(25) & 0xFF == ord(q):
+            break
+    else:
         break
-  else:
-      break
 
 cap.release()
 cv2.destroyAllWindows()

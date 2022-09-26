@@ -80,7 +80,7 @@ while(cap.isOpened()):
     frame = cv2.resize(frame,(224,224))
     frame = execute(frame)
     if ret == True:
-        plt.imshow("frame")
+        plt.imshow(frame)
 
         if cv2.waitKey(10) & 0xFF == ord(q):
             break

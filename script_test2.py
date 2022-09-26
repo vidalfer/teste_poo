@@ -79,10 +79,11 @@ while(cap.isOpened()):
     frame = cv2.resize(frame,(224,224))
     frame = execute(frame)
     if ret == True:
+        cv2.startWindowThread()
+        cv2.namedWindow("preview")
         cv2.imshow("Frame",frame)
-        print("funcionou")
 
-        if cv2.waitKey(25) & 0xFF == ord(q):
+        if cv2.waitKey(10) & 0xFF == ord(q):
             break
     else:
         break

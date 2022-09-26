@@ -55,7 +55,7 @@ model_trt.load_state_dict(torch.load(OPTIMIZED_MODEL))
 t0 = time.time()
 torch.cuda.current_stream().synchronize()
 for i in range(50):
-y = model_trt(data)
+    y = model_trt(data)
 torch.cuda.current_stream().synchronize()
 t1 = time.time()
 

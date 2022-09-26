@@ -13,6 +13,7 @@ from trt_pose.parse_objects import ParseObjects
 import ipywidgets
 from IPython.display import display
 from jetcam.utils import bgr8_to_jpeg
+import matplotlib.pyplot as plt
 
 
 def preprocess(image):
@@ -79,9 +80,7 @@ while(cap.isOpened()):
     frame = cv2.resize(frame,(224,224))
     frame = execute(frame)
     if ret == True:
-        cv2.startWindowThread()
-        cv2.namedWindow("preview")
-        cv2.imshow("Frame",frame)
+        plt.imshow("frame")
 
         if cv2.waitKey(10) & 0xFF == ord(q):
             break

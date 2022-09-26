@@ -39,9 +39,9 @@ image_w.value = bgr8_to_jpeg(image)
 
 
 with open('human_pose.json', 'r') as f:
-human_pose = json.load(f)
+    human_pose = json.load(f)
 
-topology = trt_pose.coco.coco_category_to_topology(human_pose)
+    topology = trt_pose.coco.coco_category_to_topology(human_pose)
 
 WIDTH = 224
 HEIGHT = 224
@@ -74,17 +74,17 @@ image_w = ipywidgets.Image(format='jpeg')
 display(image_w)
 
 while(cap.isOpened()):
-start_time = time.time() # start time of the loop
-ret,frame = cap.read()
-frame = cv2.resize(frame,(224,224))
-frame = execute(frame)
-if ret == True:
-    cv2.imshow("Frame",frame)
+    start_time = time.time() # start time of the loop
+    ret,frame = cap.read()
+    frame = cv2.resize(frame,(224,224))
+    frame = execute(frame)
+    if ret == True:
+        cv2.imshow("Frame",frame)
 
-    if cv2.waitKey(25) & 0xFF == ord(q):
+        if cv2.waitKey(25) & 0xFF == ord(q):
+            break
+    else:
         break
-else:
-    break
 
 cap.release()
 cv2.destroyAllWindows()

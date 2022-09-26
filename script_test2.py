@@ -68,7 +68,7 @@ device = torch.device('cuda')
 parse_objects = ParseObjects(topology)
 draw_objects = DrawObjects(topology)
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("exemploNetCaindo.mp4")
 
 image_w = ipywidgets.Image(format='jpeg')
 display(image_w)

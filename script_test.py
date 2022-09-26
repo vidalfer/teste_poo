@@ -16,30 +16,30 @@ from jetcam.utils import bgr8_to_jpeg
 
 
 def preprocess(image):
-    global device
-    device = torch.device('cuda')
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    image = PIL.Image.fromarray(image)
-    image = transforms.functional.to_tensor(image).to(device)
-    image.sub_(mean[:, None, None]).div_(std[:, None, None])
-    return image[None, ...]
+global device
+device = torch.device('cuda')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+image = PIL.Image.fromarray(image)
+image = transforms.functional.to_tensor(image).to(device)
+image.sub_(mean[:, None, None]).div_(std[:, None, None])
+return image[None, ...]
 
 
 global start_time
 def execute(image):
-    data = preprocess(image)
-    cmap, paf = model_trt(data)
-    cmap, paf = cmap.detach().cpu(), paf.detach().cpu()
-    counts, objects, peaks = parse_objects(cmap, paf)#, cmap_threshold=0.15, link_threshold=0.15)
-    draw_objects(image, counts, objects, peaks)
-    image = cv2.resize(image,(640,640))
-    image = cv2.flip(image, 1)
-    image = cv2.putText(image, "FPS: " + str(int(1.0 / (time.time() - start_time))), (500, 50), cv2.FONT_HERSHEY_SIMPLEX ,  1, (0, 0, 0), 2, cv2.LINE_AA)
-    image_w.value = bgr8_to_jpeg(image)
+data = preprocess(image)
+cmap, paf = model_trt(data)
+cmap, paf = cmap.detach().cpu(), paf.detach().cpu()
+counts, objects, peaks = parse_objects(cmap, paf)#, cmap_threshold=0.15, link_threshold=0.15)
+draw_objects(image, counts, objects, peaks)
+image = cv2.resize(image,(640,640))
+image = cv2.flip(image, 1)
+image = cv2.putText(image, "FPS: " + str(int(1.0 / (time.time() - start_time))), (500, 50), cv2.FONT_HERSHEY_SIMPLEX ,  1, (0, 0, 0), 2, cv2.LINE_AA)
+image_w.value = bgr8_to_jpeg(image)
 
 
 with open('human_pose.json', 'r') as f:
-    human_pose = json.load(f)
+human_pose = json.load(f)
 
 topology = trt_pose.coco.coco_category_to_topology(human_pose)
 
@@ -55,7 +55,7 @@ model_trt.load_state_dict(torch.load(OPTIMIZED_MODEL))
 t0 = time.time()
 torch.cuda.current_stream().synchronize()
 for i in range(50):
-    y = model_trt(data)
+y = model_trt(data)
 torch.cuda.current_stream().synchronize()
 t1 = time.time()
 
@@ -74,17 +74,17 @@ image_w = ipywidgets.Image(format='jpeg')
 display(image_w)
 
 while(cap.isOpened()):
-    start_time = time.time() # start time of the loop
-    ret,frame = cap.read()
-    frame = cv2.resize(frame,(224,224))
-    frame = execute(frame)
-    if ret == True:
-    cv2.imshow("Frame",frame)
+start_time = time.time() # start time of the loop
+ret,frame = cap.read()
+frame = cv2.resize(frame,(224,224))
+frame = execute(frame)
+if ret == True:
+cv2.imshow("Frame",frame)
 
-        if cv2.waitKey(25) & 0xFF == ord(q):
-            break
-    else:
+    if cv2.waitKey(25) & 0xFF == ord(q):
         break
+else:
+    break
 
 cap.release()
 cv2.destroyAllWindows()

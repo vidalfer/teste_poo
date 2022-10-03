@@ -73,12 +73,16 @@ cap = cv2.VideoCapture("exemploNetCaindo.mp4")
 
 image_w = ipywidgets.Image(format='jpeg')
 #display(image_w)
-
+size = (640,640)
+result = cv2.VideoWriter('videocriado5.mp4', 
+                         cv2.VideoWriter_fourcc(*'mp4v'),
+                         15, size)
 while True:
     start_time = time.time() # start time of the loop
     ret,frame = cap.read()
     frame = cv2.resize(frame,(224,224))
-    execute(frame)
+    frame = execute(frame)
+    result.write(frame)
     if not ret:
         print("Loop Finalizado")
         break

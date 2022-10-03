@@ -72,20 +72,16 @@ draw_objects = DrawObjects(topology)
 cap = cv2.VideoCapture("exemploNetCaindo.mp4")
 
 image_w = ipywidgets.Image(format='jpeg')
-display(image_w)
+#display(image_w)
 
-while(cap.isOpened()):
+while True:
     start_time = time.time() # start time of the loop
     ret,frame = cap.read()
     frame = cv2.resize(frame,(224,224))
-    frame = execute(frame)
-    if ret == True:
-        plt.imshow(frame)
-
-        if cv2.waitKey(10) & 0xFF == ord(q):
-            break
-    else:
+    execute(frame)
+    if not ret:
+        print("Loop Finalizado")
         break
 
 cap.release()
-cv2.destroyAllWindows()
+

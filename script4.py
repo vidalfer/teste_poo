@@ -77,14 +77,22 @@ size = (640,640)
 result = cv2.VideoWriter('videocriado5.mp4', 
                          cv2.VideoWriter_fourcc(*'mp4v'),
                          15, size)
+count = 0
 while True:
     start_time = time.time() # start time of the loop
     ret,frame = cap.read()
-    frame = cv2.resize(frame,(224,224))
-    frame = execute(frame)
-    result.write(frame)
-    if not ret:
-        print("Loop Finalizado")
+    if ret == True:
+        frame = cv2.resize(frame,(224,224))
+        frame = execute(frame)
+        count+=1
+        if count == 1:
+            cv2.imwrite("frame.jpg",frame)
+    else:
+        print("loop finalizado")
         break
-
 cap.release()
+result.release()
+    
+            
+
+
